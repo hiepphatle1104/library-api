@@ -32,7 +32,7 @@ func (h *UserHandler) NewAccount(w http.ResponseWriter, r *http.Request) {
 func (h *UserHandler) NewSession(w http.ResponseWriter, r *http.Request) {
 	req := dto.GetRequestData[model.User](r)
 
-	err := h.service.CreateNewSession(req)
+	token, err := h.service.CreateNewSession(req)
 	if err != nil {
 		res := dto.NewResponse(err.Error(), false)
 		res.Send(w)
@@ -40,6 +40,7 @@ func (h *UserHandler) NewSession(w http.ResponseWriter, r *http.Request) {
 	}
 
 	res := dto.NewResponse("logged in", true)
+	res.Token = token
 	res.Send(w)
 }
 

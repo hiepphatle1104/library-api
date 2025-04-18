@@ -1,6 +1,7 @@
 package main
 
 import (
+	"library-api/auth"
 	"library-api/database"
 	"library-api/handler"
 	"library-api/repository"
@@ -29,9 +30,8 @@ func main() {
 
 	r.Route("/v1", func(r chi.Router) {
 		r.Route("/auth", func(r chi.Router) {
-			// add middlware to validate data
-			r.Post("/sign-up", userHandler.NewAccount)
-			r.Post("/sign-in", userHandler.NewSession)
+			r.With(auth.VerifyPostData).Post("/sign-up", userHandler.NewAccount)
+			r.With(auth.VerifyPostData).Post("/sign-in", userHandler.NewSession)
 			r.Get("/sign-out", userHandler.ClearSession)
 		})
 	})

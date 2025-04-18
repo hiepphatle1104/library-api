@@ -8,7 +8,6 @@ import (
 	"github.com/uptrace/bun"
 	"github.com/uptrace/bun/dialect/pgdialect"
 	"github.com/uptrace/bun/driver/pgdriver"
-	"github.com/uptrace/bun/extra/bundebug"
 )
 
 type Database struct {
@@ -24,10 +23,10 @@ func NewConnection() (*Database, error) {
 		return nil, err
 	}
 
-	db.AddQueryHook(bundebug.NewQueryHook(
-		bundebug.WithVerbose(true),
-		bundebug.FromEnv("BUNDEBUG"),
-	))
+	// db.AddQueryHook(bundebug.NewQueryHook(
+	// 	bundebug.WithVerbose(true),
+	// 	bundebug.FromEnv("BUNDEBUG"),
+	// ))
 
 	ctx := context.Background()
 	newTable[model.User](db, ctx)

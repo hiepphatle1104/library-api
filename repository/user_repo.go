@@ -21,7 +21,7 @@ func (r *UserRepository) CreateUser(user *model.User, ctx context.Context) error
 }
 
 func (r *UserRepository) FindByUsername(userName string, ctx context.Context) (*model.User, error) {
-	var user *model.User
+	user := new(model.User)
 	err := r.db.DB.NewSelect().Model(user).Where("user_name = ?", userName).Scan(ctx)
 	if err != nil {
 		return nil, err

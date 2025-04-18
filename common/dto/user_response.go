@@ -9,6 +9,7 @@ type Response struct {
 	Message string `json:"message"`
 	Ok      bool   `json:"ok"`
 	Data    any    `json:"data,omitempty"`
+	Token   string `json:"token,omitempty"`
 }
 
 func NewResponse(message string, ok bool) *Response {

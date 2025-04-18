@@ -54,10 +54,31 @@ func (s *UserService) CreateNewUser(user *model.User) error {
 	return nil
 }
 
-func (s *UserService) CreateNewSession(user *model.User) error {
-	return nil
+func (s *UserService) CreateNewSession(user *model.User) (string, error) {
+	ctx := context.Background()
+	// Find user
+	existUser, _ := s.repo.FindByUsername(user.UserName, ctx)
+	if existUser == nil {
+		return "", fmt.Errorf("not found")
+	}
+
+	// verify password
+	isValid := utils.VerifyPassword(user.Password, existUser.Password)
+	if !isValid {
+		return "", fmt.Errorf("password error")
+	}
+
+	// create token
+	token, err := utils.CreateToken(existUser.ID)
+	if err != nil {
+		return "", err
+	}
+
+	return token, nil
 }
 
 func (s *UserService) ClearCurrSession() error {
+	// check token
+
 	return nil
 }
